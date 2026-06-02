@@ -1,0 +1,249 @@
+create database shop;
+use shop;
+
+create table roles(
+id int primary key auto_increment, 
+name varchar(255));
+
+create table users (
+id int primary key auto_increment, 
+login varchar(255),
+password varchar(255),
+id_role int,
+foreign key (id_role) references roles(id),
+name varchar(255),
+l_name varchar(255),
+surname varchar(255)
+);
+
+create table categories(
+id int primary key auto_increment, 
+name varchar(255));
+
+
+create table factories (
+id int primary key auto_increment, 
+name varchar(255));
+
+create table suppliers (
+id int primary key auto_increment,
+name varchar(255));
+
+create table goods (
+id int primary key auto_increment, 
+photo varchar(255),
+name varchar(255),
+dscription varchar(255),
+id_categ int,
+foreign key (id_categ) references categories(id),
+id_supplier int,
+foreign key (id_supplier) references suppliers(id),
+id_factory int,
+foreign key (id_factory) references factories(id),
+price decimal(8,2),
+quantity_warehouse int,
+discount int,
+measur_unit varchar(255)
+);
+
+create table statuses (
+id int primary key auto_increment, 
+name varchar(255));
+
+create table orders (
+id int primary key auto_increment, 
+articul varchar(255),
+address_place varchar(255),
+id_user int, 
+foreign key (id_user) references users(id),
+dt_order date default '2026-05-31',
+dt_delivery date,
+total_cost decimal(8,2),
+id_status int,
+foreign key (id_status) references statuses(id)
+);
+
+create table order_goods(
+id int primary key auto_increment, 
+id_order int,
+foreign key (id_order) references orders(id),
+id_good int, 
+foreign key (id_good) references goods(id),
+quantity int
+);
+---------------------------------------------------------------------- main
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>927</width>
+    <height>756</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="fio_lb">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="logo_lb">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="auth_btn">
+       <property name="text">
+        <string>Войти</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="logout_btn">
+       <property name="text">
+        <string>Выйти</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
+       <widget class="QWidget" name="goods_tab">
+        <attribute name="title">
+         <string>Товары</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_9">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLineEdit" name="search_goods_line">
+             <property name="placeholderText">
+              <string>введите для поиска...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <item>
+            <widget class="QComboBox" name="filter_goods_comboBox"/>
+           </item>
+           <item>
+            <widget class="QComboBox" name="sort_goods_comboBox"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="add_new_good_btn">
+             <property name="text">
+              <string>Добавить</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QScrollArea" name="scrollArea">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_4">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>881</width>
+              <height>562</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <layout class="QVBoxLayout" name="goods_vbox"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="orders_tab">
+        <attribute name="title">
+         <string>Заказы</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QPushButton" name="add_order_btn">
+             <property name="text">
+              <string>Добавить</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QScrollArea" name="scrollArea_2">
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="QWidget" name="scrollAreaWidgetContents_5">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>881</width>
+              <height>599</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_10">
+             <item>
+              <layout class="QVBoxLayout" name="orders_vbox"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+
